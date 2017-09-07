@@ -1,25 +1,25 @@
 #include<bits/stdc++.h>
 using namespace std;
-vector <int> adj[281905];
-vector <int> rev[281905];
-int outdeg[281905];
+vector <int> adj[325730];
+vector <int> rev[325730];
+int outdeg[325730];
 int N,M;
 double d=0.15;
 double threshold=0.00000001;
-double pr[281905];
-double prev[281905];
+double pr[325730];
+double prev[325730];
 void compute(){
     double error=10000000000.0;
     int count=0;
     
-    for(int i=1;i<=N;i++)
+    for(int i=0;i<=N;i++)
         prev[i]=d/N;
     while(error>threshold){
         count+=1;
         
         //cout<<error<<"\n";
         #pragma omp parallel for  
-        for(int i=1;i<=N;i++){
+        for(int i=0;i<=N;i++){
             pr[i]=d/(N*1.0);
             for(int v=0;v<rev[i].size();v++){
                 int ver=rev[i][v];
@@ -27,7 +27,7 @@ void compute(){
             }
         }
         double nerr=0.0;
-        for(int i=1;i<=N;i++){
+        for(int i=0;i<=N;i++){
             nerr=max(nerr,abs(prev[i]-pr[i]));
             prev[i]=pr[i];
         }
