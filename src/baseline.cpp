@@ -5,7 +5,7 @@ vector <int> rev[325730];
 int outdeg[325730];
 int N,M;
 double d=0.15;
-double threshold=0.00000001;
+double threshold=0.0000000001;
 double pr[325730];
 double prev[325730];
 void compute(){
