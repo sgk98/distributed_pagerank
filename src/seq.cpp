@@ -1,9 +1,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-vector <int> adj[500000];
-int vis[500000];
-int outdeg[500000];
+vector <int> adj[1000000];
+int vis[1000000];
+int outdeg[1000000];
 set<int> s;
 void BFS(int u,double beta)
 {
@@ -19,7 +19,6 @@ void BFS(int u,double beta)
         int v=q.front();
         q.pop();
         
-        #pragma omp parallel for
         for(int i=0;i<adj[v].size();i++)
         {
            
@@ -27,20 +26,22 @@ void BFS(int u,double beta)
             if(vis[ver]==0)
             {
                 vis[ver]=u;
-                #pragma omp critical
                 {
                     s.erase(ver);
                     q.push(ver);
                     outside+=outdeg[ver];
                     inside++;
-                    if(inside<(outside/beta))
+                    if((inside*beta)>outside)
                     {
                         break_flag=1;
                     }
                 }
                   
             }
+            if(break_flag)
+                break;
         }
+        outside-=outdeg[v];
         if(break_flag)
             break;
            
@@ -49,10 +50,11 @@ void BFS(int u,double beta)
     }
     return ;
 }
-int main()
+int main(int argc,char* argv[])
 {
+    string b=argv[1];
     int n,m;
-    double beta=0.01;
+    double beta=  ::atof(b.c_str());;
     cin>>n>>m;
     for(int i=1;i<=n;i++)
         s.insert(i);
